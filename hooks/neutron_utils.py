@@ -78,6 +78,7 @@ from neutron_contexts import (
     CORE_PLUGIN, OVS, NSX, N1KV, OVS_ODL,
     NeutronGatewayContext,
     L3AgentContext,
+    LoggingContext,
 )
 from charmhelpers.contrib.openstack.neutron import (
     parse_bridge_mappings,
@@ -102,6 +103,7 @@ NEUTRON_NVP_PLUGIN_CONF = \
     "/etc/neutron/plugins/nicira/nvp.ini"
 NEUTRON_NSX_PLUGIN_CONF = \
     "/etc/neutron/plugins/vmware/nsx.ini"
+
 
 NEUTRON_PLUGIN_CONF = {
     OVS: NEUTRON_ML2_PLUGIN_CONF,
@@ -342,6 +344,9 @@ NEUTRON_FWAAS_CONF = "/etc/neutron/fwaas_driver.ini"
 NOVA_CONF_DIR = '/etc/nova'
 NOVA_CONF = "/etc/nova/nova.conf"
 
+NEUTRON_LOGGING_CONF = '%s/logging-neutron.conf' % NEUTRON_CONF_DIR
+NOVA_LOGGING_CONF = '%s/logging-nova.conf' % NOVA_CONF_DIR
+
 NOVA_CONFIG_FILES = {
     NOVA_CONF: {
         'hook_contexts': [NetworkServiceContext(),
@@ -358,6 +363,10 @@ NOVA_CONFIG_FILES = {
             context.AppArmorContext(NOVA_API_METADATA_AA_PROFILE)
         ],
     },
+    NOVA_LOGGING_CONF: {
+        'services': ['nova-api-metadata'],
+        'hook_contexts': [LoggingContext(),]
+    }
 }
 
 NEUTRON_SHARED_CONFIG_FILES = {
@@ -405,6 +414,17 @@ NEUTRON_SHARED_CONFIG_FILES = {
             context.AppArmorContext(NEUTRON_METERING_AA_PROFILE)
         ],
     },
+    NEUTRON_LOGGING_CONF: {
+        'services': ['neutron-l3-agent',
+                     'neutron-dhcp-agent',
+                     'neutron-metadata-agent',
+                     'neutron-plugin-openvswitch-agent',
+                     'neutron-plugin-metering-agent',
+                     'neutron-metering-agent',
+                     'neutron-lbaas-agent',
+                     'neutron-vpn-agent'],
+        'hook_contexts': [LoggingContext(),]
+    }
 }
 NEUTRON_SHARED_CONFIG_FILES.update(NOVA_CONFIG_FILES)
 
