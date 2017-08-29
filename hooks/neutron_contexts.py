@@ -7,6 +7,7 @@ from charmhelpers.core.hookenv import (
     unit_get,
     cached,
     network_get_primary_address,
+    log,
 )
 from charmhelpers.fetch import (
     apt_install,
