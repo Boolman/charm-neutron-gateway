@@ -17,6 +17,13 @@ options:
     default: False
     description: |
       Setting this to True will configure logformat to json.
+  resolvers:
+    type: string
+    default:
+    description: |
+      Set default resolvers.
+      example:
+        '8.8.8.8, 8.8.4.4'
   openstack-origin:
     default: distro
     type: string

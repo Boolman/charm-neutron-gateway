@@ -96,6 +96,7 @@ class NeutronGatewayContext(NeutronAPIContext):
             api_settings['overlay_network_type'],
             'enable_metadata_network': config('enable-metadata-network'),
             'enable_isolated_metadata': config('enable-isolated-metadata'),
+            'resolvers': config('resolvers'),
         }
 
         fallback = get_host_ip(unit_get('private-address'))
