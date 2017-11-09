@@ -2,7 +2,7 @@
 # Mode: {{aa_profile_mode}}
 #include <tunables/global>
 
-/usr/bin/neutron-lbaasv2-agent {
+/usr/bin/neutron-lbaasv2-agent flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/python>
   #include <abstractions/nameservice>
@@ -22,6 +22,7 @@
   /var/log/neutron/** rwk,
   /{,var/}run/neutron/** rwk,
   /{,var/}run/lock/neutron/** rwk,
+  /run/uuidd/request rw,
 
   # Allow unconfined sudo to support oslo.rootwrap
   # profile makes no attempt to restrict this as this
